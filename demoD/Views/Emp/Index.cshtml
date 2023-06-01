@@ -1,0 +1,103 @@
+﻿@model IEnumerable<demoD.Models.EmpModel>
+@using demoD.Models;
+
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.ActionLink("Create New", "Create", new {}, new { @class = "btn btn-primary btn-sm" })
+    </p>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Empemploye Name
+            </th>
+            <th>
+                StartDate
+            </th>
+            <th>
+                EndDate
+            </th>
+            <th>
+                Status
+            </th>
+            <th>LeaveType </th>
+            <th>
+                Description
+            </th>
+            <th>Action</th>
+        </tr>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpemployeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |                        
+                        <button type="button" id="@item.Id" class=" btn btn-danger btn-sm" data-item-id="@item.Id" data-toggle="modal" data-target="#confirm-delete">Delete</button>
+
+                    </td>
+                </tr>
+            }
+        }
+
+
+    </table>
+
+
+}
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete: <span class="description"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" value="Delete" onclick="deleteData()" class=" btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JS includes -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    var Id;
+
+    function deleteData() {
+        $.get('/Emp/Delete/' + Id).then(function () {
+            location.reload();
+        });
+    }
+ 
+    $('#confirm-delete').on('show.bs.modal', function (e) {
+        var data = $(e.relatedTarget).data();
+        $('.btn-ok', this).data('itemId', data.itemId);
+        Id = data.itemId;
+    });
+</script>

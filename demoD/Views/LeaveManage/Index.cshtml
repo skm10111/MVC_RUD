@@ -1,0 +1,56 @@
+﻿@model IEnumerable<demoD.Models.EmpModel>
+
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Empemploye Name
+        </th>
+        <th>
+            StartDate
+        </th>
+        <th>
+            EndDate
+        </th>
+        <th>
+            Status
+        </th>
+        <th>LeaveType </th>
+        <th>
+            Description
+        </th>
+        <th>Action</th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpemployeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Approve", "UpdateStatus", new { id = item.Id, status = true }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("Reject", "UpdateStatus", new { id = item.Id, status = false }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    }
+
+
+</table>
